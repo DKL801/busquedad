@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Nombre y Apellidos por DNI</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+    <h1>Buscar Nombre y Apellidos por DNI</h1>
+    <form id="dniForm">
+        <label for="dniInput">DNI (8 dígitos numéricos):</label>
+        <input type="text" id="dniInput" pattern="[0-9]{8}" required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Agrega el cuadro modal para mostrar el resultado -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">Datos</span>
+            </div>
+            <span class="close-modal" onclick="cerrarModal()">&times;</span>
+            <div id="resultado-modal"></div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
