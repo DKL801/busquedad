@@ -1,27 +1,32 @@
 /* app.js */
 
-document.getElementById("dniForm").addEventListener("submit", function (e) {
+document.getElementById("dniForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     // Obtener el valor del DNI ingresado
     const dni = document.getElementById("dniInput").value;
 
-    // Realizar una solicitud AJAX para buscar el nombre y apellidos
-    // Aquí deberías agregar tu lógica para buscar los datos en una base de datos o fuente de datos externa
-    // En este ejemplo, simplemente mostraremos un resultado fijo
-    const resultado = buscarNombreApellidos(dni);
+    // Realizar una solicitud a la API para buscar el nombre y apellidos
+    const resultado = await buscarNombreApellidos(dni);
 
     // Mostrar el resultado en el cuadro modal
     mostrarModal(resultado);
 });
 
-// Función para buscar el nombre y apellidos
-function buscarNombreApellidos(dni) {
-    // En este ejemplo, retornamos un resultado fijo
-    if (dni === "71418093") {
-        return "DNI: 71418093 Nombre y Apellidos: Alexandro Samuel Anco Díaz";
-    } else {
-        return "DNI no encontrado";
+// Función para buscar el nombre y apellidos a través de una API
+async function buscarNombreApellidos(dni) {
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFsZXhhbmRyb2RpYXo4MDFAZ21haWwuY29tIn0.CHsZ6TQ2sPJoxKtmFezXfvzCg6LTI4mEkfCLKLsmJ-0";
+    const url = `https://dniruc.apisperu.com/api/v1/dni/${dni}?token=${token}`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return `DNI: ${dni} Nombre y Apellidos: ${data.nombres} ${data.apellidoPaterno} ${data.apellidoMaterno}`;
+    } catch (error) {
+        return "Error al obtener datos del servidor";
     }
 }
 
